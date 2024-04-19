@@ -8,6 +8,7 @@ import {
   serial,
   timestamp,
   varchar,
+  boolean,
 } from "drizzle-orm/pg-core";
 
 /**
@@ -18,17 +19,37 @@ import {
  */
 export const createTable = pgTableCreator((name) => `t3_todo_${name}`);
 
-export const posts = createTable(
-  "post",
+// export const posts = createTable(
+//   "post",
+//   {
+//     id: serial("id").primaryKey(),
+//     name: varchar("name", { length: 256 }),
+//     createdAt: timestamp("created_at")
+//       .default(sql`CURRENT_TIMESTAMP`)
+//       .notNull(),
+//     updatedAt: timestamp("updatedAt"),
+//   },
+//   (example) => ({
+//     nameIndex: index("name_idx").on(example.name),
+//   })
+// );
+
+export const todos = createTable(
+  "todo",
   {
     id: serial("id").primaryKey(),
-    name: varchar("name", { length: 256 }),
+    task: varchar("name", { length: 150 }),
+    // details: varchar("details", { length: 500 }),
+    isComplete: boolean("isComplete").default(false),
+    // remindMe: boolean("remindMe").default(false),
+    // urgency: boolean("urgency").default(false), // low medium high
+    //userId: need to set up clerk
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
     updatedAt: timestamp("updatedAt"),
   },
   (example) => ({
-    nameIndex: index("name_idx").on(example.name),
-  })
+    taskIndex: index("task_idx").on(example.task),
+  }),
 );
