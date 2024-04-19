@@ -8,9 +8,10 @@ const todosPage = async () => {
   return (
     <div>
       <AddTodo />
-      <div className="flew-row flex">
+      <div className="flew-row flex ">
         <div className="flex flex-row p-4">
-          <Card>
+          <Card className="w-64">
+            Todo
             {todos
               .filter((t) => t.done === false)
               .map((todo) => (
@@ -19,7 +20,8 @@ const todosPage = async () => {
           </Card>
         </div>
         <div className="flex flex-row p-4">
-          <Card>
+          <Card className="w-64">
+            Completed
             {todos
               .filter((t) => t.done)
               .map((todo) => (

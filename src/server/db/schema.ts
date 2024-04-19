@@ -38,7 +38,7 @@ export const todo = createTable("todo", {
   id: serial("id").primaryKey(),
   text: varchar("name", { length: 150 }).notNull(),
   done: boolean("done").default(false).notNull(),
-  //userId: need to set up clerk
+  userId: varchar("userId", { length: 256 }).notNull(),
   createdAt: timestamp("created_at")
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
