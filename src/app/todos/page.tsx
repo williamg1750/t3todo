@@ -12,18 +12,18 @@ const todosPage = async () => {
         <div className="flex flex-row p-4">
           <Card>
             {todos
-              .filter((t) => t.isComplete === false)
+              .filter((t) => t.done === false)
               .map((todo) => (
-                <Todo key={todo.id} todo={todo} />
+                <Todo key={todo.id} todoProps={todo} />
               ))}
           </Card>
         </div>
         <div className="flex flex-row p-4">
           <Card>
             {todos
-              .filter((t) => t.isComplete)
+              .filter((t) => t.done)
               .map((todo) => (
-                <Todo key={todo.id} todo={todo} />
+                <Todo key={todo.id} todoProps={todo} />
               ))}
           </Card>
         </div>

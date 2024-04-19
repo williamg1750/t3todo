@@ -2,32 +2,32 @@
 import { Checkbox } from "./ui/checkbox";
 import { revalidatePath } from "next/cache";
 import { db } from "~/server/db";
-import { todos } from "~/server/db/schema";
+import { todo } from "~/server/db/schema";
 import { Button } from "./ui/button";
 import { is, eq, not } from "drizzle-orm";
 
 interface TodoProps {
-  todo: {
+  todoProps: {
     id: number;
-    task?: string | null;
-    isComplete: boolean | null;
+    text: string;
+    done: boolean;
     createdAt: Date;
     updatedAt?: Date | null;
   };
 }
 
-export default async function Todo({ todo }: TodoProps) {
-  const { id, task, isComplete, createdAt, updatedAt } = todo;
+export default async function Todo({ todoProps }: TodoProps) {
+  const { id, text, done, createdAt } = todoProps;
   async function toggleTodo(formData: FormData) {
     "use server";
+
     const id = parseInt(formData.get("id") as string);
-    console.log("id", id);
     await db
-      .update(todos)
+      .update(todo)
       .set({
-        isComplete: not(todo.isComplete) ?? false,
+        done: not(todo.done),
       })
-      .where(eq(todos.id, id));
+      .where(eq(todo.id, id));
 
     revalidatePath("/todos");
   }
@@ -37,9 +37,9 @@ export default async function Todo({ todo }: TodoProps) {
         <input type="hidden" name="id" value={id} />
         <Button type="submit">toggle</Button>
         <label htmlFor="task" className="text-sm font-medium">
-          {task}
+          {text}
         </label>
-        <Checkbox checked={isComplete ?? false} />
+        <Checkbox checked={done} />
       </div>
     </form>
   );

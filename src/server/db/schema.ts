@@ -34,22 +34,13 @@ export const createTable = pgTableCreator((name) => `t3_todo_${name}`);
 //   })
 // );
 
-export const todos = createTable(
-  "todo",
-  {
-    id: serial("id").primaryKey(),
-    task: varchar("name", { length: 150 }),
-    // details: varchar("details", { length: 500 }),
-    isComplete: boolean("isComplete").default(false),
-    // remindMe: boolean("remindMe").default(false),
-    // urgency: boolean("urgency").default(false), // low medium high
-    //userId: need to set up clerk
-    createdAt: timestamp("created_at")
-      .default(sql`CURRENT_TIMESTAMP`)
-      .notNull(),
-    updatedAt: timestamp("updatedAt"),
-  },
-  (example) => ({
-    taskIndex: index("task_idx").on(example.task),
-  }),
-);
+export const todo = createTable("todo", {
+  id: serial("id").primaryKey(),
+  text: varchar("name", { length: 150 }).notNull(),
+  done: boolean("done").default(false).notNull(),
+  //userId: need to set up clerk
+  createdAt: timestamp("created_at")
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  updatedAt: timestamp("updatedAt"),
+});
