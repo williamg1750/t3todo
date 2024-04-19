@@ -13,6 +13,9 @@ const AddTodo = () => {
     if (!user.userId) throw new Error("Unauthorized");
     ("use server");
     const textFormData = formData.get("text");
+    if (typeof textFormData !== "string") {
+      throw new Error("Invalid text data");
+    }
     await db.insert(todo).values({ text: textFormData, userId: user.userId });
     revalidatePath("/todos");
   }
